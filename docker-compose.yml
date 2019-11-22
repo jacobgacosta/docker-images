@@ -1,0 +1,36 @@
+version: '2'
+services:
+  nginx:
+    image: igly/nginx1.17.5:1.0.0
+    volumes:
+     - ./application:/usr/share/nginx/html
+    ports:
+     - "80:80"
+    networks:
+     - sd-net
+  php:
+    image: igly/php7.3:1.0.0
+    volumes:
+     - ./application:/usr/share/nginx/html
+    networks:
+     - sd-net
+  redis:
+    image: redis:alpine
+    networks:
+     - sd-net
+  mysql:
+    image: mysql:5.7
+    networks:
+     - sd-net
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my-app
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: app-pass
+networks:
+  sd-net:
+    driver: "bridge"
+volumes:
+  mysqldata:
+    driver: "local"
+
