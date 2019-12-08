@@ -1,0 +1,28 @@
+# Redis
+
+docker run -d --name redis --network=sd-net redis:alpine
+
+# MySQL
+
+docker run -d --name mysql \
+--network=sd-net \
+-e MYSQL_ROOT_PASSWORD=root \
+-e MYSQL_DATABASE=my-app \
+-e MYSQL_USER=app-user \
+-e MYSQL_PASSWORD=app-pass \
+mysql:5.7
+
+# PHP
+
+docker run -d --name php \
+--network=sd-net \
+-v $(pwd)/../application:/var/www/html \
+igly/php:0.1.0
+
+# Nginx
+
+docker run -d --name nginx \
+--network=sd-net \
+-p 80:80 \
+-v $(pwd)/../application:/var/www/html \
+igly/nginx:0.2.0
